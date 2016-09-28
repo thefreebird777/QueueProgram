@@ -78,10 +78,11 @@ void run(){
 			}	
 		}
 
-		//TODO  the variable first always is true here despite being changed to false after the first customer
+		//TODO for some reason the seviceTime == 0 and the !q-isEmpty() work fine on their own but do not work together
+		//also, the variable first always is true here despite being changed to false after the first customer
 
 		//starts the service process once previous customer finishes	
-		if (serviceTime == 0 && first == false) {
+		if (serviceTime == 0 && !q->isEmpty() && first == false) {
 			cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
 			customerDepart++;
 			lastCustWait = q->pop();
