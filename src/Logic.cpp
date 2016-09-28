@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include <queue>
+#include "Queue.cpp"
 using namespace std;
 
 
@@ -8,49 +8,71 @@ int maxInterval = 0;
 int serviceTime = 0;
 int arrivalTime = 0;
 int customer = 1;
-int time = 0;
+int currentTime = 0;
 int lastCustWait = 0;
 int longestWait = 0;
 int longestQueue = 0;
-queue <int> queue;
+int firstCustomerWait = 0;
+int first = 0;
+Queue *q = new Queue();
 
-cout << "Please enter the max interval for an incoming customer: ";
+void newCustomer();
+void service();
+void run();
 
-cin << maxInterval;
 
-public void newCustomer(){
+int main(){
+	run();
+	return 0;
+}
+
+void newCustomer(){
 	arrivalTime = rand() % maxInterval + 1;
-	queue.push(arrivalTime);
-	if (queue.size() > longestQueue){
-		longestQueue = queue.size();
+	q->push(arrivalTime);
+	if (q->length() > longestQueue){
+		longestQueue = q->length();
 	}
 }
 
-
-public void service(){
-	cout << "Customer " << customer << " arrived at " << time << ".";
+void service(){
+	cout << "Customer " << customer << " arrived at " << currentTime << "." << endl;
 	serviceTime = rand() % maxInterval + 1;
 	lastCustWait += serviceTime;
+	if (customer == 1){
+		firstCustomerWait = serviceTime;
+	}
 	if (lastCustWait > longestWait){
 		longestWait = lastCustWait;
 	}
 	
 }
 
-
-public void run(){
+void run(){
+	cout << "Please enter the max interval for an incoming customer: " << endl;
+	cin >> maxInterval;
 	newCustomer();
-	while (time != 720){
-		if (arrivalTime == time){
+	first = arrivalTime;
+	while (currentTime != 720){
+		if (arrivalTime == currentTime){
 			newCustomer();
 		}
+		if (currentTime >= first){
 		if (serviceTime == 0){
-			cout << "Customer " << customer << " left at " << time << ".";
+			if (customer != 1){
+				cout << "Customer " << customer << " left at " << currentTime << "." << endl;
 			customer++;
-			lastCustWait = queue.pop();
+			}
+			lastCustWait = q->pop();
 			service();
+		}}
+		if (firstCustomerWait == 0){
+			cout << "Customer " << customer << " left at " << currentTime << "." << endl;
+			customer++;
 		}
+		firstCustomerWait--;
 		serviceTime--;
-		time++;
+		currentTime++;
 	}
+	cout << "The longest queue was: " << longestQueue << "." << endl;
+	cout << "The longest wait was: " << longestWait << "." << endl;
 }

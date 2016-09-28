@@ -1,8 +1,8 @@
-Queues: QueueTest.o
-	g++ -o test QueueTest.o
+Queue: Logic.o
+	g++ Logic.o -o Queue
 
-QueueTest.o: QueueTest.cpp Queue.cpp Queue.h
-	g++ -c QueueTest.cpp
+Logic.o: Logic.cpp Queue.cpp Queue.h
+	g++ -c Logic.cpp
 
 clean:
-	rm word *.o
+	rm *.o Queue
