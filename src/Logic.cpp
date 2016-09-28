@@ -13,8 +13,6 @@ int currentTime = 0;
 int lastCustWait = 0;
 int longestWait = 0;
 int longestQueue = 0;
-int firstCustomerWait = 100;
-bool first = false;
 Queue *q = new Queue();
 
 void newCustomer();
@@ -71,6 +69,20 @@ void run(){
 		currentTime++;
 	}	
 	
+	cout << "The store is closing. The rest of the queue will be served, but no new customers will be allowed in." << endl;
+	
+	while (!q->isEmpty()){
+		if (serviceTime == 0){
+			cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
+			customerDepart++;
+			lastCustWait = currentTime - q->pop();
+			service();
+		}
+		serviceTime--;
+		currentTime++;
+	}
+
+
 	cout << "The longest queue was: " << longestQueue << "." << endl;
 	cout << "The longest wait was: " << longestWait << "." << endl;
 }
