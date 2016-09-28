@@ -30,16 +30,9 @@ int main(){
 void  newCustomer(){
 	arrivalTime = rand() % maxInterval + 1;
 	arrivalTime += currentTime;
-//	cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
-//	customerArrive++;
-//	q->push(arrivalTime);
-//	if (q->length() > longestQueue){
-//		longestQueue = q->length();
-//	}
 }
 
 void service(){
-//	cout << "Customer " << customer << " arrived at " << currentTime << "." << endl;
 	serviceTime = rand() %  maxInterval + 1;
 	lastCustWait += serviceTime;
 	if (customerDepart == 1){
@@ -65,10 +58,14 @@ void run(){
 				customerArrive++;
 				service();
 			}
+			first == false;
 		}
 		
+
+		//TODO the variable first is true here despite being changed to false after the first customer
+
 		//gets next customers arrival once one arrives and stores arrived customer in queue
-		if( arrivalTime == currentTime){
+		if( arrivalTime == currentTime && first == false){
 			cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
 			customerArrive++;
 			newCustomer();
@@ -77,17 +74,18 @@ void run(){
 				longestQueue = q->length();
 			}	
 		}
-
-		//TODO for some reason the seviceTime == 0 and the !q-isEmpty() work fine on their own but do not work together
-		//also, the variable first always is true here despite being changed to false after the first customer
+			
+		//TODO  the variable first always is true here despite being changed to false after the first customer
 
 		//starts the service process once previous customer finishes	
-		if (serviceTime == 0 && !q->isEmpty() && first == false) {
+		if (serviceTime == 0 && first == false) {
 			cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
 			customerDepart++;
-			lastCustWait = q->pop();
-			service();
+			if(!q->isEmpty()){
+				lastCustWait = q->pop();
 			}
+			service();
+		}
 	
 		firstCustomerWait--;
 		serviceTime--;
