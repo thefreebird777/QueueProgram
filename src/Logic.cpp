@@ -35,9 +35,6 @@ void  newCustomer(){
 void service(){
 	serviceTime = rand() %  maxInterval + 1;
 	lastCustWait += serviceTime;
-	if (customerDepart == 1){
-		firstCustomerWait = serviceTime;
-	}
 	if (lastCustWait > longestWait){
 		longestWait = lastCustWait;
 	}
@@ -48,26 +45,12 @@ void run(){
 	cout << "Please enter the max interval for an incoming customer: " << endl;
 	cin >> maxInterval;
 	newCustomer();
-//	first = true;
 	while (currentTime != 720){
-		//starts service for first customer
-//		if(q->isEmpty() && first == true){
-//			if (arrivalTime == currentTime){
-//				first = false;
-//				cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
-//				customerArrive++;
-//				service();
-//				currentTime++;
-//			}
-//		}
-
-
 		//gets next customers arrival once one arrives and stores arrived customer in queue
 		if( arrivalTime == currentTime){
 			cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
 			customerArrive++;
 			newCustomer();
-			if(q->isEmpty()){service();}
 			q->push(arrivalTime);
 			if (q->length() > longestQueue){
 				longestQueue = q->length();
@@ -79,12 +62,11 @@ void run(){
 			if(!q->isEmpty()){
 				cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
 				customerDepart++;
-				lastCustWait = q->pop();
+				lastCustWait = currentTime - q->pop();
 			}
 			service();
 		}
 	
-		firstCustomerWait--;
 		serviceTime--;
 		currentTime++;
 	}	
