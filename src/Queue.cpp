@@ -51,7 +51,7 @@ int Queue::pop()
 
   if (f == NULL)
   {
-   // std::cout << "There is no value to pop, as the queue is empty.";
+   std::cout << "There is no value to pop, as the queue is empty.";
   }
   else
   {
