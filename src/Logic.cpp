@@ -48,40 +48,37 @@ void run(){
 	cout << "Please enter the max interval for an incoming customer: " << endl;
 	cin >> maxInterval;
 	newCustomer();
-	first = true;
+//	first = true;
 	while (currentTime != 720){
 		//starts service for first customer
-		if(q->isEmpty() && first == true){
-			if (arrivalTime == currentTime){
-				first == false;
-				cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
-				customerArrive++;
-				service();
-			}
-			first == false;
-		}
-		
+//		if(q->isEmpty() && first == true){
+//			if (arrivalTime == currentTime){
+//				first = false;
+//				cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
+//				customerArrive++;
+//				service();
+//				currentTime++;
+//			}
+//		}
 
-		//TODO the variable first is true here despite being changed to false after the first customer
 
 		//gets next customers arrival once one arrives and stores arrived customer in queue
-		if( arrivalTime == currentTime && first == false){
+		if( arrivalTime == currentTime){
 			cout << "Customer " << customerArrive << " arrived at " << arrivalTime << "." << endl;
 			customerArrive++;
 			newCustomer();
+			if(q->isEmpty()){service();}
 			q->push(arrivalTime);
 			if (q->length() > longestQueue){
 				longestQueue = q->length();
 			}	
 		}
 			
-		//TODO  the variable first always is true here despite being changed to false after the first customer
-
 		//starts the service process once previous customer finishes	
-		if (serviceTime == 0 && first == false) {
-			cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
-			customerDepart++;
+		if (serviceTime == 0 ) {
 			if(!q->isEmpty()){
+				cout << "Customer " << customerDepart << " left at " << currentTime << "." << endl;
+				customerDepart++;
 				lastCustWait = q->pop();
 			}
 			service();
