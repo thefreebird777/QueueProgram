@@ -1,8 +1,8 @@
-Queue: Logic.o
-	g++ Logic.o -o Queue
+Queue: CheckoutLine.o
+	g++ CheckoutLine.o -o Queue
 
-Logic.o: Logic.cpp Queue.cpp Queue.h
-	g++ -c Logic.cpp
+CheckoutLine.o: CheckoutLine.cpp Queue.cpp Queue.h
+	g++ -c CheckoutLine.cpp
 
 clean:
 	rm *.o Queue
